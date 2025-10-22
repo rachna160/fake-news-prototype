@@ -15,7 +15,6 @@ vectorizer = joblib.load("vectorizer.pkl")
 # Text input
 st.write("### Enter any news headline or paragraph:")
 user_text = st.text_area("Type the news content here...", height=150)
-
 if st.button("Analyze News"):
     if user_text.strip() == "":
         st.warning("⚠ Please enter some text!")
