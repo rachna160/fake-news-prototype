@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
 import matplotlib.pyplot as plt
@@ -39,7 +39,8 @@ print("-" * 50)
 # =========================================================
 
 # Separate features (X: the text) and target (y: the label)
-X = data['text']
+data['full_text']= data['title'] + ' ' + data['text']
+X = data['full_text']
 y = data['label']
 
 # Split data into training and testing sets (80% train, 20% test)
@@ -50,7 +51,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # =========================================================
 
 # Initialize the TfidfVectorizer
-vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
+vectorizer = TfidfVectorizer(stop_words='english', max_df=0.85,ngram_range=(1,2))
 
 # Fit the vectorizer ONLY on the training data and transform it
 X_train_vectorized = vectorizer.fit_transform(X_train)
@@ -63,7 +64,7 @@ X_test_vectorized = vectorizer.transform(X_test)
 # =========================================================
 
 # Initialize the Passive Aggressive Classifier
-model = PassiveAggressiveClassifier(max_iter=50, random_state=42)
+model = LogisticRegression(solver='liblinear',random_state=42, max_iter=1000)
 
 # Train the model
 model.fit(X_train_vectorized, y_train)

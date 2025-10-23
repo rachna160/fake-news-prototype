@@ -20,9 +20,9 @@ if st.button("Analyze News"):
         st.warning("⚠ Please enter some text!")
     else:
         x = vectorizer.transform([user_text])
-        prediction = model.predict(x)[0]
+        prediction  = model.predict(x)[0]
 
-        if prediction == "fake":
+        if prediction == 0:
             st.markdown("<h2 style='color:red;'>❌ Fake News Detected!</h2>", unsafe_allow_html=True)
             st.image("https://cdn-icons-png.flaticon.com/512/4637/4637580.png", width=150)
         else:
